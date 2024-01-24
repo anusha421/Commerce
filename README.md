@@ -13,5 +13,5 @@ An ebay-like e-commerce auction site.
 Django
 
 ## How to Run
-Download or clone the file.  
+Download or clone the repository.  
 Run ```python manage.py runserver``` to open the project in your system.
