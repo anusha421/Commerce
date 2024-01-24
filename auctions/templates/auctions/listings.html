@@ -1,0 +1,95 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if not user.is_authenticated %}
+        <div class="text-center">Log in to view.</div>
+    {% else %}
+
+        {% for eachbid in listing_bids %}
+            {% if eachbid.user == request.user and eachbid.bid == listing.price and listing.status == False %}
+                <center><h3 style="color: deeppink;">Congradulations! You have won the auction.</h3></center><br>
+            {% endif %}
+        {% endfor %}
+        <div>
+            <center>
+                <table class="box" cellpadding="24" cellspacing="10">
+                    <tr>
+                        <h3><em>{{ title }}</em></h3>
+                    </tr>
+                    <tr>
+                        <td rowspan="4"><img src="/media/{{ listing.image }}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <em class="color"><u>Posted by:</u></em> {{ listing.user }}<br><br>
+                            <em class="color"><u>Description:</u></em> <br> {{ listing.description }}<br><br>
+                            <em class="color"><u>Category:</u></em> {{ listing.category }}<br><br>
+                            <em class="color"><u>Created on</u></em> {{ listing.date|date:"dS F, Y" }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <form name="button" action="{% url 'listing' listing_id title %}" method="post">
+                                {% csrf_token %}
+
+                                {% if watch %}
+                                    <button type="submit" name="watch">Remove from Watchlist</button>
+                                {% else %}
+                                    <button type="submit" name="watch">Add to Watchlist</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </center>
+
+            <h3>Price ${{ listing.price }}</h3>
+            {% if listing.user == request.user %}
+
+                {% if listing.status == False %}
+                        You have closed the bidding.<br><br>
+                {% else %}
+                <form action="{% url 'listing' listing_id title %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="close_bid">Close Bidding</button>
+                </form><br><br>
+                {% endif %}
+
+            {% else %}
+
+                {% if listing.status == False %}
+                    This item is no longer available.<br><br>
+                    
+                {% else %}
+                    Your bid must be greater than {{ listing.price }}.<br>
+                    {{ count }} bid(s) placed.<br>
+                    <form name="bidform" action="{% url 'listing' listing_id title %}" method="post">
+                        {% csrf_token %}
+                        <input name="bid_number" type="number" min="{{ listing.price }}" step="none" placeholder="{{ listing.price }}">
+                        <button type="submit" name="bid">Place Bid</button>
+                    </form><br><br>
+                {% endif %}
+
+            {% endif %}
+
+            <h4><em>Comments</em>  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-quote-fill" viewBox="0 0 16 16">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm7.194 2.766a1.688 1.688 0 0 0-.227-.272 1.467 1.467 0 0 0-.469-.324l-.008-.004A1.785 1.785 0 0 0 5.734 4C4.776 4 4 4.746 4 5.667c0 .92.776 1.666 1.734 1.666.343 0 .662-.095.931-.26-.137.389-.39.804-.81 1.22a.405.405 0 0 0 .011.59c.173.16.447.155.614-.01 1.334-1.329 1.37-2.758.941-3.706a2.461 2.461 0 0 0-.227-.4zM11 7.073c-.136.389-.39.804-.81 1.22a.405.405 0 0 0 .012.59c.172.16.446.155.613-.01 1.334-1.329 1.37-2.758.942-3.706a2.466 2.466 0 0 0-.228-.4 1.686 1.686 0 0 0-.227-.273 1.466 1.466 0 0 0-.469-.324l-.008-.004A1.785 1.785 0 0 0 10.07 4c-.957 0-1.734.746-1.734 1.667 0 .92.777 1.666 1.734 1.666.343 0 .662-.095.931-.26z"/>
+            </svg>
+            </h4>
+            {% if comments %}
+                {% for comment in comments %}
+                    <em><b>{{ comment.user.username }}:</b></em>  
+                    {{ comment.text }}<br>
+                {% endfor %}
+            {% else %}
+                No comments yet.
+            {% endif %}<br>
+            <form action="{% url 'listing' listing_id title %}" method="post">
+                {% csrf_token %}
+                <textarea name="comment_text" placeholder="Add comment publicly as {{ user.username }}"></textarea>
+                <button type="submit" name="comment">Post Comment</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

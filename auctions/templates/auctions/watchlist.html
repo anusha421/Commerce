@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Watchlist</h2>
+    {% if not user.is_authenticated %}
+        <div class="text-center">Log in to view.</div>
+    {% else %}
+
+        {% for watch in watches %}
+            <div>
+                <center>
+                    <table class="watchtable" class="box" cellpadding="10" cellspacing="10">
+                        <tr><td>
+                            <h3><em><a href="{% url 'listing' watch.listing.id watch.listing.title %}">{{ watch.listing.title }}</a></em></h3>
+                        </td></tr>
+                        <tr>
+                            <td rowspan="4"><img src="/media/{{ watch.listing.image }}"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Description: <br> {{ watch.listing.description }}<br><br>
+                                Category: {{ watch.listing.category }}<br><br>
+                                Price: ${{ watch.listing.price }}<br>
+                                Created on {{ watch.listing.date|date:"dS F, Y" }}
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                <hr class="watchhr">
+            </div>
+        {% empty %}
+            <div class="text-center">Nothing in watchlist.</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

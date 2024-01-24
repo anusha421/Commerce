@@ -1,0 +1,94 @@
+@font-face {
+    font-family: "heading";
+    src: url("font.otf");
+}
+
+@font-face {
+    font-family: "font2";
+    src: url("font2.otf");
+}
+
+body {
+    padding: 25px;
+    background: url("images/bg.png");
+    background-size: cover;
+    font-family: "font2";
+    color: rgba(36, 8, 54, 0.815);
+    font-size: larger;
+}
+
+a {
+    color: #3200cc;
+}
+
+h1, h2 {
+    font-family: "heading";
+    text-align: center;
+    color: rgb(255, 127, 127);
+    font-size: 275%;
+}
+
+h3 {
+    color: rgb(134, 29, 64);
+    font-size: 200%;
+}
+
+.Stdform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group {
+    width: 80%;
+    margin-left: 15%;
+}
+
+.form-group-2 {
+    width: 40%;
+    margin: 0.5%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+img {
+    height: 350px;
+    width: 350px;
+}
+
+table {
+    display: inline;
+    margin: 2%;
+}
+
+col {
+    overflow-wrap: break-word;
+}
+
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+input[type="submit"], button[type="submit"] {
+    margin-left: 10px;
+    background-color: #ffc935;
+    border: none;
+}
+
+.watchhr {
+    border: 0.5px dashed rgba(31, 30, 30, 0.568);
+    width: 92%;
+}
+
+textarea {
+    width: 80%;
+    outline-color: blue;
+}
+
+.color {
+    color: rgb(170, 25, 146);
+}
