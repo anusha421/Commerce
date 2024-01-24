@@ -4,7 +4,7 @@ An ebay-like e-commerce auction site.
 ## Features
 - Authentication
 - Create Listing
-- Active Listings Page (listings currently available or bidding)
+- Active Listings Page (listings currently available for bidding)
 - Listings Page
 - Watchlist (cart like feature to keep track of biddings)
 - Categories (displays active listings of a certain category)
